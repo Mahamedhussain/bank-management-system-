@@ -1,0 +1,483 @@
+
+//class one 
+#pragma once
+#include<iostream>
+#include<string>
+using namespace std;
+class Validation
+
+{
+
+public:
+
+
+
+	static bool check_name(string name) {
+
+		if (name.size() > 20) {
+			cout << "this name can not accessepted because alphabet bigger than the limit " << endl;
+
+			return false;
+		}
+
+		else if (name.size() < 5) {
+			cout << "this name can not accessepted because alphabet less than the limit " << endl;
+			return false;
+
+		}
+
+		else
+			return true;
+
+	}
+
+
+
+
+	static bool check_password(string password) {
+
+
+		if (password.size() > 20) {
+			cout << "this password can not accessepted because  bigger than the limit " << endl;
+
+			return false;
+		}
+
+		else if (password.size() < 8) {
+			cout << "this password can not accessepted because  less than the limit " << endl;
+
+			return false;
+		}
+
+		else 
+			return true;
+
+	}
+
+
+
+	static bool check_balance(double balance ) {
+
+
+
+		if (balance < 1500) {
+			cout << "this balance less than the minimum balance : minimum balance = 1500 " << endl;
+			return false;
+		}
+		else
+		return true;
+	}
+
+
+
+	static bool check_salary(double salary) {
+
+
+		if (salary < 5000) {
+			cout << "this salary less than minimum salary!! minimum salary : 5000 " << endl;
+			return false;
+		}
+
+		else
+			return true;
+
+	}
+
+
+	
+};
+
+
+//class two 
+
+
+#pragma once
+#include<iostream>
+#include<string>
+#include"Validation.h"
+using namespace std;
+class Person
+{
+protected:
+	int id;
+	string name,password;
+	
+
+public:
+
+	Person() {
+		 id = 0;
+	}
+
+	
+	//                     SETTERS                      //
+	void set_id() {
+		int id;
+		cout << "enter your id " << endl;
+		cin >> id;
+		this->id = id;
+
+	}
+
+	void set_name() {
+
+		string name;
+		
+		cout << "enter your name :name must be 5:20 alphabet " << endl;
+		cin.ignore();
+		getline(cin, name);
+
+		while (!Validation::check_name(name)) {
+
+			cout << "enter your name :name must be 5:20 alphabet " << endl;
+			getline(cin, name);
+
+
+		}
+
+	
+	
+	
+		this->name = name;
+
+	}
+
+	void  set_password() {
+
+		string password;
+
+		cout << "enter your password :password must be 8:20 alphabet or num  " << endl;
+		cin.ignore();
+		getline(cin, password);
+
+
+		while (!Validation::check_password(password)) {
+
+			cout << "enter your password :password must be 8:20 alphabet or num  " << endl;
+
+			getline(cin, password);
+
+
+		}
+
+		this->password = password;
+
+		
+
+	}
+
+	//                         GETTERS                      //
+
+	void get_name() {
+
+
+		cout << " name : " << name << endl;
+
+	}
+
+	void get_password() {
+
+		cout << "password : " << password << endl;
+	}
+
+	int get_id() {
+
+		cout << " id : ";
+		return id; 
+	}
+
+	//                       METHODS           // 
+
+
+	virtual void display_info() {
+
+		cout << "name : " << name << endl;;
+		cout << "id : " << id << endl;
+		cout << "password : " << password<<endl;
+
+	}
+
+
+
+
+
+};
+
+//class three 
+
+
+
+#pragma once
+#include<iostream>
+#include<string>
+#include"person.h"
+using namespace std;
+
+class Client:public Person{
+
+	double balance;
+
+public:
+
+	Client() {
+
+		balance = 0.0;
+	}
+
+	
+
+
+	//                            ***SETTERS***                        //
+
+
+	void set_balance() {
+
+		double balance;
+
+		cout << "enter your balance >> : minimum balance = 1500 " << endl;
+		cin >> balance;
+
+
+		while (! Validation::check_balance(balance)) {
+
+			cout << "enter your balance >> : minimum balance = 1500 " << endl;
+			cin >> balance;
+
+
+
+
+		}
+		this->balance = balance;
+
+
+
+
+
+	}
+
+	//                        ***GETTERS***                          //
+
+	void get_balance() {
+
+		cout << "balance = "<<balance;
+
+	}
+
+
+
+	//                ***METHODS***                       // 
+
+
+	void deposit(double amount ) {
+
+		balance += amount;
+
+		cout << " balance after deposit = " << balance <<" $ "<< endl;
+
+
+	}
+
+	void withdraw(double amount) {
+
+		
+
+
+		if (amount >= balance) {
+			cout << "can not withdraw because the limit is not allowed " << endl;
+		}
+
+		else {
+
+			balance -= amount; 
+
+			cout << "balance " << name << "after withdraw = " << balance << endl;
+		}
+
+	}
+
+	
+	void transfer_to(double amount ,Client & a ) {
+
+		if (balance <= amount) {
+
+			cout << "can not transfer because the limit is not allowed" << endl;
+
+		}
+
+		else {
+			balance -= amount;
+
+			a.deposit(amount);
+
+
+		}
+
+
+
+
+
+	}
+
+
+	void check_balance() {
+
+		cout << "the balance = " << balance << endl;
+	}
+
+	void display_info() {
+		Person::display_info();
+		cout << "balance = " << balance << endl;;
+
+	}
+
+};
+
+
+// class four 
+
+#pragma once
+#include<iostream>
+#include<string>
+#include"person.h"
+using namespace std;
+
+class Employee :public Person
+{
+
+	double salary;
+
+public:
+
+	Employee() {
+		salary = 0.0;
+	}
+
+	//                         ***SETTERS***             //
+
+	void set_salary() {
+
+	  double salary;
+        cout << "enter your salary " << endl;
+			cin >> salary;
+
+
+
+			while (!Validation::check_salary(salary)) {
+				cout << "enter your salary " << endl;
+				cin >> salary;
+
+
+			}
+
+			this->salary = salary;
+	}
+
+	//                     ***GETTERS***              // 
+
+
+	double get_salary() {
+
+		cout << " salary = ";
+		return salary;
+
+
+	}
+
+
+	//               ***METHODS***                    // 
+
+	void display_info() {
+		Person::display_info();
+		cout << "salary :  " << salary << endl;
+
+	}
+
+
+
+};
+
+//class five 
+
+#pragma once
+#include<iostream>
+#include<string>
+#include"person.h"
+using namespace std;
+
+class Admin:public Person
+{
+	double salary;
+
+
+public:
+
+	//               ***SETTERS***                 // 
+
+	void set_salary() {
+
+		double salary;
+		cout << "enter your salary " << endl;
+		cin >> salary;
+
+
+
+		while (!Validation::check_salary(salary)) {
+			cout << "enter your salary " << endl;
+			cin >> salary;
+
+
+		}
+
+		this->salary = salary;
+	}
+
+
+	//                ***GETTERS***                  //
+
+
+
+	double get_salary() {
+
+		cout << " salary = ";
+		return salary;
+
+
+	}
+
+
+	//             ***METHODS***           // 
+
+	void display_info() {
+		Person::display_info();
+		cout << "salary :  " << salary << endl;
+
+	}
+
+
+
+
+
+
+};
+
+//the main 
+
+
+#include <iostream>
+#include<string >
+#include"person.h"
+#include"Client.h"
+#include"Employee.h"
+#include"admin.h"
+#include"Validation.h"
+using namespace std;
+int main()
+{
+    Person a;
+    Client b;
+    Employee c;
+    Admin d;
+
+
+   
+}
